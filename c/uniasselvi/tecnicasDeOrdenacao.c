@@ -37,17 +37,34 @@
 //                 lista_ler();
 //                 break;
 //             case 3:
-//                 bubbleSort(lista);
+//                 lista_limpar();
+//                 qtd = bubbleSort(ordenado);
 //                 break;
 //             case 4:
-//                 selectionSort(lista);
+//                 lista_limpar();
+//                 qtd = selectionSort(ordenado, tamanho);
 //                 break;
 //             case 5:
-//                 insertionSort(lista);
+//                 lista_limpar();
+//                 qtd = insertionSort(ordenado, tamanho);
 //                 break;
 //             case 6:
-//                 shellSort(lista);
+//                 lista_limpar();
+//                 qtd = shellSort(ordenado, tamanho);
 //                 break;
+//             case 7:
+//                 lista_limpar();
+//                 qtd = mergeSort(ordenado, tamanho, 0);
+//                 break;
+//             case 8:
+//                 lista_limpar();
+//                 qtd = quickSort(ordenado, 0, tamanho - 1, 0);
+//                 break;
+//             case 9:
+//                 lista_limpar();
+//                 qtd = heapSort(ordenado, tamanho);
+//                 break;
+
 //         }
 //     } while (opt != 0);
 //     system("pause");
@@ -71,6 +88,9 @@
 //     printf("4 - Ordenar com selectionSort\n");
 //     printf("5 - Ordenar com insertionSort\n");
 //     printf("6 - Ordenar com shellSort\n");
+//     printf("7 - Ordenar com mergeSort\n");
+//     printf("8 - Ordenar com quickSort\n");
+//     printf("9 - Ordenar com heapSort\n");
 //     printf("0 - Sair...\n\n");
 // }
 
@@ -185,6 +205,155 @@
 //             vec[j + gap] = valor;
 //         }
 //     } while (gap > 1);
+
+//     return qtd;
+// }
+
+// // Aplica o modo mergeSort
+// int mergeSort(int vec[], int tam, int qtd) {
+//     int meio;
+
+//     if (tam > 1) {
+//         meio = tam / 2;
+
+//         qtd = mergeSort(vec, meio, qtd);
+//         qtd = mergeSort(vec + meio, tam - meio, qtd);
+
+//         junta(vec, tam);
+//     }
+
+//     return (qtd + 1);
+// }
+
+// // Junta os pedaços num novo vetor ordenado
+// void junta(int vec[], int tam) {
+//     int i, j, k;
+//     int meio;
+//     int* tmp;
+
+//     tmp = (int*) malloc(tam * sizeof(int));
+//     if (tmp == NULL) {
+//         exit(1);
+//     }
+
+//     meio = tam / 2;
+//     i = 0;
+//     j = meio;
+//     k = 0;
+
+//     while (i < meio && j < tam) {
+//         if (vec[i] < vec[j]) {
+//             tmp[k] = vec[i];
+//             ++i;
+//         } else {
+//             tmp[k] = vec[j];
+//             ++j;
+//         }
+//         ++k;
+//     }
+
+//     if (i == meio) {
+//         while (j < tam) {
+//             tmp[k] = vec[j];
+//             ++j;
+//             ++k;
+//         }
+//     } else {
+//         while (i < meio) {
+//             tmp[k] = vec[i];
+//             ++i;
+//             ++k;
+//         }
+//     }
+
+//     for (i = 0; i < tam; ++i) {
+//         vec[i] = tmp[i];
+//     }
+
+//     free(tmp);
+// }
+
+// // Aplica o modo do quickSort
+// int quickSort(int vec[], int left, int right, int qtd) {
+//     int r;
+
+//     if (right > left) {
+//         r = particiona(vec, left, right);
+//         qtd = quickSort(vec, left, r - 1, qtd);
+//         qtd = quickSort(vec, r + 1, right, qtd);
+//     }
+
+//     return (qtd + 1);
+// }
+
+// // Divide o vetor em pedaços menores
+// int particiona(int vec[], int left, int right) {
+//     int i, j;
+
+//     i = left;
+//     for (j = left + 1; j <= right; ++j) {
+//         if (vec[j] < vec[left]) {
+//             ++i;
+//             troca(&vec[i], &vec[j]);
+//         }
+//     }
+
+//     troca(&vec[left], &vec[i]);
+
+//     return i;
+// }
+
+// // Garante as propriedades de heap a um nó
+// int heapifica(int vec[], int tam, int i) {
+//     int e, d, maior, qtd;
+
+//     qtd = 1;
+//     e = 2 * i + 1;
+//     d = 2 * i + 2;
+
+//     if (e < tam && vec[e] > vec[i]) {
+//         maior = e;
+//     } else {
+//         maior = i;
+//     }
+
+//     if (d < tam && vec[d] > vec[maior]) {
+//         maior = d;
+//     }
+
+//     if (maior != i) {
+//         troca(&vec[i], &vec[maior]);
+//         qtd += heapifica(vec, tam, maior);
+//     }
+
+//     return qtd;
+// }
+
+// // Transforma o vetor em uma heap
+// int constroiHeap(int vec[], int tam) {
+//     int i, qtd;
+
+//     qtd = 0;
+//     for (i = tam / 2; i >= 0; i--) {
+//         qtd += heapifica(vec, tam, i);
+//     }
+
+//     return qtd;
+// }
+
+// // Ordena com base na estrutura heap
+// int heapSort(int vec[], int tam) {
+//     int n, i, qtd;
+
+//     qtd = 0;
+//     qtd += constroiHeap(vec, tam);
+//     n = tam;
+
+//     for (i = tam - 1; i > 0; i--) {
+//         troca(&vec[0], &vec[i]);
+//         n--;
+//         qtd += heapifica(vec, n, 0);
+//     }
 
 //     return qtd;
 // }
