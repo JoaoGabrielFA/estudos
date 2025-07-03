@@ -1,0 +1,78 @@
+@startuml
+
+class Personagem {
+-id: int <<PK>>
+-nome: String
+-ataque: int
+-vida: int
+-classe: int <<FK>>
+-arma: int <<FK>>
+-habilidade: int <<FK>>
+-acao: int <<FK>>
+}
+
+class Classe {
+-id: int <<PK>>
+-nome: String
+-descricao: String
+-passiva: int <<FK>>
+-tipo_arma: String
+}
+
+class Passiva {
+-id: int <<PK>>
+-nome: String
+-efeito: String
+}
+
+class Arma {
+-id: int <<PK>>
+-nome: String
+-efeito: String
+-passiva: int <<FK>>
+-elemento: int <<FK>>
+-tipo: String
+}
+
+class Habilidade {
+-id: int <<PK>>
+-nome: String
+-efeito: String
+-elemento: int <<FK>>
+}
+
+class Elemento {
+-id: int <<PK>>
+-nome: String
+-descricao: String
+}
+
+class Acao {
+-id: int <<PK>>
+-nome: String
+-descricao: String
+}
+
+class Item {
+-id: int <<PK>>
+-nome: String
+-descricao: String
+}
+
+Personagem "1,n" --> "1,n" Habilidade : Tem
+Personagem "1,n" --> "0,n" Acao : Realiza
+Personagem "1,1" --> "1,n" Classe : Pertence
+Personagem "1,1" --> "1,1" Arma : Equipa
+
+Acao "0,n" --> "1,1" Item : Pode Usar
+Acao "0,n" --> "1,1" Habilidade : Pode Usar
+
+Classe "1,n" --> "1,n" Arma : Define
+Classe "1,n" --> "1,n" Passiva : Contem
+
+Arma "1,n" --> "1,n" Elemento : Pode Ter
+Arma "1,n" --> "1,n" Passiva : Contem
+
+Habilidade "0,1" --> "1,n" Elemento : Pode Ter
+
+@enduml
